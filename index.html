@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewBlue ME Wiggle Preset Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <section class="app">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">NewBlue Motion Effects</p>
+          <h1>NewBlue ME Wiggle Preset Generator</h1>
+          <p class="subtitle">Create and download your edited <code>.fxpmtef</code> preset.</p>
+        </div>
+        <div class="badge">Wiggle</div>
+      </header>
+
+      <section class="panel">
+        <div class="panel-title">
+          <h2>Wiggle Settings</h2>
+          <span id="status" aria-live="polite">Ready</span>
+        </div>
+
+        <div class="grid">
+          <label class="field">
+            <span>Rate</span>
+            <input id="rate" type="number" step="0.000001" value="0.000000">
+          </label>
+
+          <label class="field">
+            <span>Strength</span>
+            <input id="strength" type="number" step="0.000001" value="0.000000">
+          </label>
+
+          <label class="field">
+            <span>Drift</span>
+            <input id="drift" type="number" step="0.000001" min="-999999" max="999999" value="0.000000">
+            <small>Positive or negative, e.g. 2.200000 or -2.200000</small>
+          </label>
+
+          <label class="field">
+            <span>Crop</span>
+            <input id="crop" type="number" step="0.000001" value="0.000000">
+          </label>
+
+          <label class="field">
+            <span>Edges</span>
+            <select id="edges">
+              <option value="0">Replicate</option>
+              <option value="1">Stretch</option>
+              <option value="2">Transparent</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Orientation</span>
+            <select id="orientation">
+              <option value="0">Vertical</option>
+              <option value="1">Horizontal</option>
+            </select>
+          </label>
+
+          <label class="field full">
+            <span>Preset Name</span>
+            <input id="presetName" type="text" value="My Wiggle Preset" maxlength="100">
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="downloadBtn" class="primary" type="button">Download .fxpmtef</button>
+          <button id="copyBtn" type="button">Copy XML</button>
+          <button id="resetBtn" type="button">Reset</button>
+        </div>
+      </section>
+
+      <section class="preview panel">
+        <div class="panel-title">
+          <h2>FXPMTEF Preview</h2>
+          <span>Live</span>
+        </div>
+        <pre id="xmlPreview" aria-label="Generated preset XML"></pre>
+      </section>
+
+      <footer>
+        NewBlue ME Wiggle Preset Generator · Comic Sans MS interface
+      </footer>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

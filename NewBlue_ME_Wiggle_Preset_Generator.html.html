@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewBlue ME Wiggle Preset Generator</title>
+  <style>
+* { box-sizing: border-box; }
+
+:root {
+  --bg1: #17102b;
+  --bg2: #30205b;
+  --panel: rgba(255,255,255,.94);
+  --text: #211936;
+  --muted: #6f6780;
+  --accent: #8d5cf6;
+  --accent2: #b58cff;
+  --border: #ddd5ec;
+  --code: #17131f;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 15% 10%, #6846b8 0, transparent 30%),
+    radial-gradient(circle at 85% 90%, #412978 0, transparent 30%),
+    linear-gradient(135deg, var(--bg1), var(--bg2));
+}
+
+.page {
+  width: min(100% - 28px, 980px);
+  margin: 28px auto;
+}
+
+.app { padding-bottom: 20px; }
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  padding: 30px;
+  margin-bottom: 18px;
+  color: white;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 24px;
+  background: rgba(18, 10, 38, .72);
+  box-shadow: 0 20px 60px rgba(0,0,0,.28);
+}
+
+.eyebrow { margin: 0 0 7px; opacity: .75; font-size: 14px; }
+h1 { margin: 0; font-size: clamp(28px, 5vw, 46px); line-height: 1.05; }
+.subtitle { margin: 12px 0 0; opacity: .84; }
+
+.badge {
+  flex: 0 0 auto;
+  padding: 13px 18px;
+  border-radius: 999px;
+  background: #fff;
+  color: #56359c;
+  font-weight: bold;
+}
+
+.panel {
+  padding: 24px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 20px;
+  background: var(--panel);
+  box-shadow: 0 15px 40px rgba(0,0,0,.16);
+}
+
+.panel-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.panel-title h2 { margin: 0; font-size: 24px; }
+.panel-title span { color: var(--muted); font-size: 14px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px;
+}
+
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field span { font-weight: bold; }
+.field small { color: var(--muted); font-size: 12px; }
+
+input, select, button {
+  font: inherit;
+}
+
+input, select {
+  width: 100%;
+  min-height: 46px;
+  padding: 9px 12px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  color: var(--text);
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(141,92,246,.16);
+}
+
+.full { grid-column: 1 / -1; }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-top: 22px;
+}
+
+button {
+  min-height: 46px;
+  padding: 9px 17px;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #e9e2f5;
+  color: var(--text);
+  font-weight: bold;
+}
+
+button:hover { filter: brightness(.97); }
+button:focus-visible { outline: 3px solid var(--accent2); outline-offset: 2px; }
+
+button.primary {
+  color: white;
+  background: linear-gradient(135deg, var(--accent), #6840c7);
+}
+
+pre {
+  margin: 0;
+  padding: 18px;
+  overflow: auto;
+  min-height: 245px;
+  border-radius: 14px;
+  color: #f5efff;
+  background: var(--code);
+  font: 14px/1.65 Consolas, "Courier New", monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  color: rgba(255,255,255,.72);
+  font-size: 13px;
+}
+
+@media (max-width: 650px) {
+  .page { width: min(100% - 18px, 980px); margin: 9px auto; }
+  .hero { flex-direction: column; align-items: flex-start; padding: 22px; }
+  .grid { grid-template-columns: 1fr; }
+  .full { grid-column: auto; }
+  .panel { padding: 18px; }
+  .actions button { flex: 1 1 100%; }
+}
+
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="app">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">NewBlue Motion Effects</p>
+          <h1>NewBlue ME Wiggle Preset Generator</h1>
+          <p class="subtitle">Create and download your edited <code>.fxpmtef</code> preset.</p>
+        </div>
+        <div class="badge">Wiggle</div>
+      </header>
+
+      <section class="panel">
+        <div class="panel-title">
+          <h2>Wiggle Settings</h2>
+          <span id="status" aria-live="polite">Ready</span>
+        </div>
+
+        <div class="grid">
+          <label class="field">
+            <span>Rate</span>
+            <input id="rate" type="number" step="0.000001" value="0.000000">
+          </label>
+
+          <label class="field">
+            <span>Strength</span>
+            <input id="strength" type="number" step="0.000001" value="0.000000">
+          </label>
+
+          <label class="field">
+            <span>Drift</span>
+            <input id="drift" type="number" step="0.000001" min="-999999" max="999999" value="0.000000">
+            <small>Positive or negative, e.g. 2.200000 or -2.200000</small>
+          </label>
+
+          <label class="field">
+            <span>Crop</span>
+            <input id="crop" type="number" step="0.000001" value="0.000000">
+          </label>
+
+          <label class="field">
+            <span>Edges</span>
+            <select id="edges">
+              <option value="0">Replicate</option>
+              <option value="1">Stretch</option>
+              <option value="2">Transparent</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Orientation</span>
+            <select id="orientation">
+              <option value="0">Vertical</option>
+              <option value="1">Horizontal</option>
+            </select>
+          </label>
+
+          <label class="field full">
+            <span>Preset Name</span>
+            <input id="presetName" type="text" value="My Wiggle Preset" maxlength="100">
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="downloadBtn" class="primary" type="button">Download .fxpmtef</button>
+          <button id="copyBtn" type="button">Copy XML</button>
+          <button id="resetBtn" type="button">Reset</button>
+        </div>
+      </section>
+
+      <section class="preview panel">
+        <div class="panel-title">
+          <h2>FXPMTEF Preview</h2>
+          <span>Live</span>
+        </div>
+        <pre id="xmlPreview" aria-label="Generated preset XML"></pre>
+      </section>
+
+      <footer>
+        NewBlue ME Wiggle Preset Generator · Comic Sans MS interface
+      </footer>
+    </section>
+  </main>
+  <script>
+const $ = (id) => document.getElementById(id);
+
+const fields = ["rate", "strength", "drift", "crop", "edges", "orientation", "presetName"];
+
+function numberValue(id) {
+  const n = Number($(id).value);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function six(n) {
+  return Number(n).toFixed(6);
+}
+
+function xmlEscape(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function makeXML() {
+  const name = $("presetName").value.trim() || "My Wiggle Preset";
+
+  const rate = six(numberValue("rate"));
+  const strength = six(numberValue("strength"));
+  const drift = six(numberValue("drift"));
+  const crop = six(numberValue("crop"));
+
+  const edges = Number.parseInt($("edges").value, 10);
+  const orientation = Number.parseInt($("orientation").value, 10);
+
+  return `<?xml version="1.0" standalone="no" ?>
+<!-- Effect's Preset File -->
+<Preset Name="${xmlEscape(name)}" LibraryName="NewBlue Motion Effects" EffectName="Wiggle">
+    <parameter type="2" value="${rate}" />
+    <parameter type="2" value="${strength}" />
+    <parameter type="2" value="${drift}" />
+    <parameter type="2" value="${crop}" />
+    <parameter type="1" value="${Number.isFinite(edges) ? edges : 0}" />
+    <parameter type="1" value="${Number.isFinite(orientation) ? orientation : 0}" />
+</Preset>`;
+}
+
+function update() {
+  $("xmlPreview").textContent = makeXML();
+  $("status").textContent = "Updated";
+}
+
+function downloadPreset() {
+  const xml = makeXML();
+  const blob = new Blob([xml], { type: "application/xml;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const safeName = ($("presetName").value.trim() || "My Wiggle Preset")
+    .replace(/[<>:"/\\|?*]+/g, "_")
+    .replace(/\s+/g, "_");
+
+  a.href = url;
+  a.download = `${safeName}.fxpmtef`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  $("status").textContent = "Downloaded";
+}
+
+async function copyXML() {
+  const xml = makeXML();
+  try {
+    await navigator.clipboard.writeText(xml);
+    $("status").textContent = "XML copied";
+  } catch {
+    $("status").textContent = "Copy unavailable";
+  }
+}
+
+function resetForm() {
+  $("rate").value = "0.000000";
+  $("strength").value = "0.000000";
+  $("drift").value = "0.000000";
+  $("crop").value = "0.000000";
+  $("edges").value = "0";
+  $("orientation").value = "0";
+  $("presetName").value = "My Wiggle Preset";
+  update();
+  $("status").textContent = "Reset";
+}
+
+fields.forEach((id) => $(id).addEventListener("input", update));
+fields.forEach((id) => $(id).addEventListener("change", update));
+
+$("downloadBtn").addEventListener("click", downloadPreset);
+$("copyBtn").addEventListener("click", copyXML);
+$("resetBtn").addEventListener("click", resetForm);
+
+update();
+
+</script>
+</body>
+</html>
